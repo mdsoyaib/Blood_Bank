@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    User Registration
+{% endblock title %}
+
+{% block content %}
+
+{% if next %}
+{% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+{% else %}
+    <p>Please login to see this page.</p>
+{% endif %}
+{% endif %}
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mt-5 mb-5">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto mt-5 mb-5 pb-2 card">
+                        <h2 class="text-center pt-2 pb-3"><b>User Registration</b></h2>
+                       
+                        <!-- registration form -->
+                        <form method="post" action="signup">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <label for="first_name">First Name:</label>
+                              <input type="text" name="first_name" class="form-control" placeholder="Enter first name" id="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name:</label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Enter last name" id="last_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username:</label>
+                                <input type="text" name="username" class="form-control" placeholder="Enter username" id="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="text" name="phone" class="form-control" placeholder="Enter phone number" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Select Your City:</label>
+                                <select name="city" id="city" class="form-control" required>
+                                    <option selected>Select</option>
+                                    {% for city in city %}
+                                    <option value="{{city.name}}">{{city.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Register As: </label><br>
+                                <input type="radio" name="role" id="donor" value="donor" required>
+                                <label for="donor">Donor</label><br>
+                                <input type="radio" name="role" id="patient" value="patient" required>
+                                <label for="patient">Patient</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="blood">Choose Your Blood Group:</label>
+                                <select name="blood" id="blood" class="form-control" required>
+                                    <option selected>Choose</option>
+                                    {% for blood in blood %}
+                                    <option value="{{blood.group}}">{{blood.group}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="pwd1">Password:</label>
+                              <input type="password" name="password1" class="form-control" placeholder="Enter password" id="pwd1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd2">Confirm Password:</label>
+                                <input type="password" name="password2" class="form-control" placeholder="Confirm password" id="pwd2" required>
+                              </div>
+                            <button type="submit" class="btn btn-success">Sign Up</button>
+                        </form>
+                        <!-- registration form end -->
+                       
+                        <!-- Remind login -->
+                        <p class="pt-3 text-center">Already have an account? <a href="{% url 'login' %}" style="text-decoration: none;"> Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock content %}

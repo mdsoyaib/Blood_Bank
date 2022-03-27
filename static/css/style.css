@@ -1,0 +1,32 @@
+    /* Modal styles */
+    .modal .modal-dialog {
+        max-width: 800px;
+    }
+    .modal .modal-header, .modal .modal-body, .modal .modal-footer {
+        padding: 10px 30px;
+    }
+    .modal .modal-content {
+        border-radius: 3px;
+    }
+    .modal .modal-footer {
+        background: #ffffff;
+        border-radius: 0 0 3px 3px;
+    }
+    .modal .modal-title {
+        display: inline-block;
+    }
+    .modal .form-control {
+        border-radius: 2px;
+        box-shadow: none;
+        border-color: #dddddd;
+    }
+    .modal textarea.form-control {
+        resize: vertical;
+    }
+    .modal .btn {
+        border-radius: 2px;
+        min-width: 100px;
+    }
+    .modal form label {
+        font-weight: normal;
+    }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" type="text/css">
+
+    <title>
+        {% block title %}
+            {{ page_title|default:"Untitled Page" }}
+        {% endblock title %}
+    </title>
+
+</head>
+<body>
+
+<!-- navbar start     -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}"><b>Blood Bank Management System</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            
+            
+            <li class="">
+                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="">
+                <a class="nav-link" href="{% url 'event' %}">Events<span class="sr-only"></a>
+            </li>
+           
+            <li class="">
+                <a class="nav-link" href="">Feedbacks</a>
+            </li>
+             
+            <li class="">
+                <a class="nav-link" href="">About Us</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+
+            <!-- this is when user is logged in -->
+            
+            {% if user.is_authenticated %}
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Welcome, {{user.username}}
+                </a>
+
+                {% if user.is_superuser %}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="admin/">Admin Panel</a>
+                </div>
+                {% endif %}
+
+                {% if not user.is_superuser %}
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="">Profile</a>
+                </div>
+                {% endif %}
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% endif %}
+            
+            <!-- this is when user is not logged in -->
+
+            {% if not user.is_authenticated %}
+            
+            <li class="">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            
+            <li class="">
+                <a class="nav-link" href="{% url 'signup' %}">Register</a>
+            </li>
+
+            {% endif %}
+            
+        </ul>
+    </div>
+</nav>
+
+<!-- navbar end -->
+
+<!--        show success or warning message!-->
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+<!--        show success or warning message-->
+
+{% block content %}
+{% endblock content %}
+
+<!-- footer -->
+<footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3 bg-dark" style="color:white;">
+        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+        All rights reserved by Md Soyaib
+    </div>
+    <!-- Copyright -->
+</footer>
+
+</body>
+</html>
+
+<script src="/static/js/jquery-slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="/static/js/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="/static/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script src="/static/js/style.js" crossorigin="anonymous"></script>
