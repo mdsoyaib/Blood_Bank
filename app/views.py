@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event
+from app.models import City, Blood, CustomUser, Event, EventRegistration
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
@@ -18,7 +18,32 @@ class Home(View):
 class Events(View):
     def get(self, request):
         event = Event.objects.all().order_by('-id')
-        return render(request, 'event.html', {'event':event})
+        check = request.GET.get('eventID')
+        count = EventRegistration.objects.all().count()
+        return render(request, 'event.html', {'event':event, 'count':count})
+
+    def post(self, request):
+        user = request.user
+        if user.is_authenticated:
+
+            event = request.POST['eventID']
+            checkEvent = Event.objects.get(id=event)
+
+            try:
+                if EventRegistration.objects.all().get(event=checkEvent, user=user):
+                    messages.warning(request, "You have already registered for this event")
+                    return redirect('event')
+            except:
+                pass
+
+            registration = EventRegistration(event=checkEvent, user=user)
+            registration.save()
+
+            messages.success(request, "Your registration for this event is successfull!")
+            return redirect('event')
+        else:
+            messages.warning(request, "Login first to register in this event!")
+            return redirect('login')
 
 
 # signup page view for donor and patient
