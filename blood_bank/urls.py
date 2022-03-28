@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, Signup, Login, Events
+from app.views import Home, Signup, Login, Events, Feedbacks
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -24,9 +24,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view(), name="home"),
     path('event', Events.as_view(), name="event"),
+    path('feedback', Feedbacks.as_view(), name="feedback"),
 
     path('login', Login.as_view(), name="login"),
     path('signup', Signup.as_view(), name="signup"),
     path('logout', auth_views.LogoutView.as_view(), name="logout"),
-    
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

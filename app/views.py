@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
@@ -18,8 +18,7 @@ class Home(View):
 class Events(View):
     def get(self, request):
         event = Event.objects.all().order_by('-id')
-        check = request.GET.get('eventID')
-        count = EventRegistration.objects.all().count()
+        count = EventRegistration.objects.all()
         return render(request, 'event.html', {'event':event, 'count':count})
 
     def post(self, request):
@@ -123,3 +122,29 @@ class Login(View):
             messages.warning(request,"Incorrect username or password")
             return redirect('login')
 
+
+# feedback page view
+
+class Feedbacks(View):
+    def get(self, request):
+        feedback = Feedback.objects.all().order_by('-id')
+        return render(request, 'feedback.html', {'feedback': feedback})
+
+    def post(self, request):
+        user = request.user
+        if user.is_authenticated:
+            comment = request.POST['feedback']
+
+            if comment == '':
+                messages.warning(request, "please write something first and then submit feedback.")
+                return redirect('feedback')
+            
+            else:
+                feedback = Feedback(name=user.first_name + ' ' + user.last_name, feedback=comment)
+                feedback.save()
+                messages.success(request, 'Thanks for your feedback!')
+                return redirect('feedback')
+
+        else:
+            messages.warning(request, "Please login first to post feedback.")
+            return redirect('feedback')

@@ -61,3 +61,10 @@ class EventRegistration(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class Feedback(models.Model):
+    name = models.CharField(verbose_name=_("user name"), max_length=255, null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)

@@ -9,7 +9,10 @@
     <div class="event">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 mt-5 mb-5 card" style="background-color: rgb(180, 230, 180);">
+                <div class="col-lg-12 mt-3 text-center text-success">
+                    <h2><b>Blood Donation Events</b></h2>
+                </div>
+                <div class="col-lg-12 mt-3 mb-5 card" style="background-color: rgb(180, 230, 180);">
                     <div class="row">
 
                         {% for event in event %}
@@ -51,7 +54,9 @@
                                                     <h6 class="text-secondary">Event Date: {{event.event_date}}</h6>
                                                     <h6 class="text-secondary">Event Time: {{event.event_time}}</h6>
                                                     <h6 class="text-secondary">Event Address: {{event.address}}</h6>
-                                                    <h6 class="text-secondary">Total Registration: {{count}}</h6>
+                                                    
+                                                    <h6 class="text-secondary">Total Registration: {{count.count}}</h6>
+                                                    
                                                     <p class="text-justify pt-2 pb-3"><i>{{event.description}}</i></p>
                                                     <p class="text-danger">Register yourself as a donor in this event.</p>
                                                     <button class="btn btn-success mb-2" type="submit">Click Here</button>
