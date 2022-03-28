@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 
@@ -148,3 +148,25 @@ class Feedbacks(View):
         else:
             messages.warning(request, "Please login first to post feedback.")
             return redirect('feedback')
+
+
+# about us page view
+
+class About(View):
+    def get(self, request):
+        return render(request, 'about_us.html')
+
+    def post(self, request):
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+
+        if name == '' or email == '' or message == '':
+            messages.warning(request, 'Please fillup all the fields to send message!')
+            return redirect('about')
+        
+        else:
+            form = ContactForm(name=name, email=email, message=message)
+            form.save()
+            messages.success(request, 'You have successfully sent the message!')  
+            return redirect('about')

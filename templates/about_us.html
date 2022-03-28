@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    About Us
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center pt-3 pb-2 text-success">
+                <h2><b>Who We Are?</b></h2>
+            </div>
+
+            <!-- this section is for about us -->
+
+            <div class="col-lg-12 m-2 pt-2 mx-auto text-justify card" style="background-color: rgb(180, 230, 180);">
+                <p><i>Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                    when an unknown printer took a galley of type and scrambled it to make a type 
+                    specimen book. It has survived not only five centuries, but also the leap into 
+                    electronic typesetting, remaining essentially unchanged. It was popularised in 
+                    the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                    and more recently with desktop publishing software like Aldus PageMaker including 
+                    versions of Lorem Ipsum.</i></p>
+            </div>
+
+            <!-- this section is for contact form -->
+
+            <div class="col-lg-12 mx-auto ml-2 mt-2 mr-2 mb-3 card border border-info">  
+                <div class="card-body">
+                    <form method="post" action="about">
+                        {% csrf_token %}
+                        <h6 class="card-title">Fillup the form and send message to admin: </h6>
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="enter your name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control" id="email" placeholder="enter your email">
+                        </div>
+                        <textarea class="form-control" rows="5" id="message" name="message" placeholder="write your message"></textarea>
+                        <input type="submit" class="fourth ml-0 mt-2 mb-0 btn btn-success" value="submit">
+                    </form>
+                </div>   
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

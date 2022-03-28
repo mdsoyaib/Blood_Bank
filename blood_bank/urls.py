@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, Signup, Login, Events, Feedbacks
+from app.views import Home, Signup, Login, Events, Feedbacks, About
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -25,6 +25,7 @@ urlpatterns = [
     path('', Home.as_view(), name="home"),
     path('event', Events.as_view(), name="event"),
     path('feedback', Feedbacks.as_view(), name="feedback"),
+    path('about', About.as_view(), name="about"),
 
     path('login', Login.as_view(), name="login"),
     path('signup', Signup.as_view(), name="signup"),
