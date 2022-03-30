@@ -39,11 +39,45 @@ class BloodBank(View):
             checkBlood.stock = checkBlood.stock - quantity
             checkBlood.save()
             messages.success(request, "Your blood request is successfull. Collect the blood from blood bank!")
-            return redirect('blood_bank')
+            return redirect('blood_requests')
         else:
             messages.warning(request, "Sorry! We don't have enough stock!")
             return redirect('blood_bank')
 
+
+# blood request history page view
+
+class BloodRequestHistory(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            brequest = BloodRequest.objects.filter(user=user).order_by('-id')
+            return render(request, 'blood_request_history.html', {'brequest':brequest})
+        else:
+            messages.warning(request, "Login first to access that page")
+            return redirect('login')
+
+
+# blood request report page view
+
+class BloodRequestReport(View):
+    def get(self, request, pk):
+        user = request.user
+        if user.is_authenticated:
+            report = None
+            
+            try:
+                report = BloodRequest.objects.get(id=pk, user=user)
+                if user == report.user: 
+                    return render(request, 'blood_request_report.html', {'report':report})
+            except:
+                report = None
+                messages.warning(request, "you don't have access to that page")
+                return redirect('blood_requests')
+
+        else:
+            messages.warning(request, "Sorry! you are not logged in!")
+            return redirect('login')
 
 
 # events page view
@@ -203,3 +237,4 @@ class About(View):
             form.save()
             messages.success(request, 'You have successfully sent the message!')  
             return redirect('about')
+

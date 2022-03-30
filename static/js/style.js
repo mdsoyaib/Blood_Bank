@@ -28,6 +28,8 @@
 
 // // js code for pop up window end
 
+// js code for pop up window according to object id
+
 $(document).ready(function(){
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
@@ -51,3 +53,22 @@ $(document).ready(function(){
         }
     });
 });
+
+// js code for pop up window according to object id end
+
+// js code to generate pdf of report
+
+window.onload = function(){
+    document.getElementById("download")
+    .addEventListener("click",()=>{
+        const report = this.document.getElementById("report");
+        console.log(report);
+        console.log(window);
+        var opt = {
+            filename : 'BloodRequestReport.pdf',
+        };
+        html2pdf().from(report).set(opt).save();
+    })
+}
+
+// js code to generate pdf of report end

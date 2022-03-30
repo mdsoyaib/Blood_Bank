@@ -15,18 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank
+from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank, BloodRequestHistory, BloodRequestReport
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', Home.as_view(), name="home"),
     path('blood_bank', BloodBank.as_view(), name="blood_bank"),
     path('event', Events.as_view(), name="event"),
     path('feedback', Feedbacks.as_view(), name="feedback"),
     path('about', About.as_view(), name="about"),
+
+    path('blood_requests', BloodRequestHistory.as_view(), name="blood_requests"),
+    path('blood_requests/report/<int:pk>', BloodRequestReport.as_view(), name="blood_request_report"),
 
     path('login', Login.as_view(), name="login"),
     path('signup', Signup.as_view(), name="signup"),
