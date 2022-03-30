@@ -8,13 +8,11 @@ from django.utils.translation import gettext_lazy as _
 class Blood(models.Model):
     group = models.CharField(verbose_name=_("Blood Group"), max_length=10, unique=True, null=True, blank=True)
     stock = models.PositiveIntegerField(null=True, blank=True)
+    photo = models.ImageField(null=True, blank=True, upload_to='blood')
     status = models.BooleanField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.group
 
 
 class CustomUser(AbstractUser):
@@ -38,6 +36,21 @@ class City(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class BloodRequest(models.Model):
+    status = (
+        ("Approved", "Approved"),
+        ("Delivered", "Delivered"),
+        ("Canceled", "Canceled"),
+    )
+    blood = models.ForeignKey(Blood, on_delete=models.PROTECT, null=True, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, null=True, blank=True)
+    amount = models.PositiveIntegerField(null=True, blank=True)
+    status = models.CharField(max_length=20, null=True, blank=True, choices=status, default="Approved")
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
 class Event(models.Model):

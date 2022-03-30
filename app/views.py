@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.db.models import F
 
 # Create your views here.
 
@@ -11,6 +12,38 @@ from django.contrib.auth import authenticate, login
 class Home(View):
     def get(self, request):
         return render(request, 'home.html')
+
+
+# blood bank page view
+
+class BloodBank(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            blood = Blood.objects.all()
+            return render(request, 'blood_bank.html', {'blood':blood})
+        else:
+            messages.warning(request, "Login first to access that page")
+            return redirect('login')
+
+    def post(self, request):
+        user = request.user
+        blood = request.POST['bloodID']
+        quantity = request.POST['quantity']
+        quantity = int(quantity)
+        checkBlood = Blood.objects.get(id=blood)
+
+        if checkBlood.stock >= quantity:
+            brequest = BloodRequest(blood=checkBlood, user=user, amount=quantity)
+            brequest.save()
+            checkBlood.stock = checkBlood.stock - quantity
+            checkBlood.save()
+            messages.success(request, "Your blood request is successfull. Collect the blood from blood bank!")
+            return redirect('blood_bank')
+        else:
+            messages.warning(request, "Sorry! We don't have enough stock!")
+            return redirect('blood_bank')
+
 
 
 # events page view

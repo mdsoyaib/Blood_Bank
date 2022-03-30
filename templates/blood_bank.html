@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Blood Bank
+{% endblock title %}
+
+{% block content %}
+
+    <div class="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mt-3 text-center text-success">
+                    <h2><b>Blood Bank</b></h2>
+                </div>
+                <div class="col-lg-12 mt-3 mb-5 card" style="background-image: url('/static/img/img2.jpg'); background-repeat: no repeat; background-size: cover;">
+                    <div class="row">
+                        <div class="col-lg-12 pt-3 pb-3 text-center">
+                            <h3><b>Select the blood group you need</b></h3>
+                        </div>
+                        
+                        {% for blood in blood %}
+                        <div class="col-lg-6 pl-5 pr-5 pb-5 text-center">
+                            <a href="#viewModal{{blood.id}}" class="view text-white" style="text-decoration: none;" data-toggle="modal"
+                            data-target="#viewModal{{blood.id}}">
+                                <div class="row">         
+                                    <div class="col-lg-7 bg-danger p-5 text-white">
+                                        <h2><b>Blood Group</b></h2>
+                                    </div>
+                                    <div class="col-lg-5 bg-white">
+                                        <img src="/media/{{blood.photo}}" alt="blood group" height="140px">
+                                    </div>       
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Bloog bank Modal HTML -->
+
+                        <div id="viewModal{{blood.id}}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="blood_bank" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-5 p-2 text-center">
+                                                    <img src="/media/{{blood.photo}}" alt="blood detail img" height="300px">
+                                                </div>
+                                                <div class="col-lg-7 pl-4">
+                                                    <input type="hidden" name="bloodID" value="{{blood.id}}">
+                                                    <h4 class="pb-2">Blood Group: {{blood.group}}</h4>
+                                                    <h6 class="text-secondary">Available Stock: {{blood.stock}}</h6>
+                                                    <p class="text-primary pt-1 pb-1">Choose how many bag of bloods you need. You can request for maximum 3 bag of bloods.</p>
+                                                    {% if blood.stock > 0 %}
+                                                    <label for="quantity">Select Quantity:</label>
+                                                    <select name="quantity" id="quantity" class="form-control" required>
+                                                        <option selected>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                    </select>
+                                                    <button class="btn btn-success mt-2 mb-2" type="submit">Send Request</button>
+                                                    {% else %}
+                                                    <p class="text-danger pt-5 pb-2">Sorry! We don't have available stock for this blood. Find a donor to get blood. <a href="">Click Here</a></p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}  
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
