@@ -17,10 +17,13 @@
             {% for feedback in feedback %}
             <div class="col-lg-12 m-1">
                 <div class="card border border-white">
-                    <h6 class="card-header bg-white pb-0 text-primary">{{feedback.name}}</h6>
+                    <h6 class="card-header bg-white pb-0 text-primary"><b>{{feedback.user.first_name}} {{feedback.user.last_name}}</b></h6>
                     <div class="card-body">
                         <p class="card-title text-secondary pt-0">{{feedback.created_at}}</p>
                         <p class="card-text text-success">{{feedback.feedback}}</p>
+                        {% if feedback.user == request.user %}
+                        <p class="card-text text-info">edit | delete</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

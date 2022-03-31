@@ -226,7 +226,15 @@ class Feedbacks(View):
                 return redirect('feedback')
             
             else:
-                feedback = Feedback(name=user.first_name + ' ' + user.last_name, feedback=comment)
+                
+                try:
+                    if Feedback.objects.all().get(user=user):
+                        messages.warning(request, "You have given feedback earlier!")
+                        return redirect('feedback')
+                except:
+                    pass    
+
+                feedback = Feedback(user=user, feedback=comment)
                 feedback.save()
                 messages.success(request, 'Thanks for your feedback!')
                 return redirect('feedback')
