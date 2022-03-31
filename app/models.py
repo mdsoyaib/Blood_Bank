@@ -62,6 +62,7 @@ class Event(models.Model):
     address = models.CharField(max_length=255, null=True, blank=True)
     photo = models.ImageField(null=True, blank=True, upload_to='images')
     event_dt = models.DateTimeField(null=True, blank=True)
+    registration = models.PositiveIntegerField(null=True, blank=True, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)

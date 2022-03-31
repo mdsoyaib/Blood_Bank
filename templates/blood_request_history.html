@@ -21,6 +21,7 @@
                         <th scope="col">Request ID</th>
                         <th scope="col">Blood Group</th>
                         <th scope="col">Quantity</th>
+                        <th scope="col">Request Date & Time</th>
                         <th scope="col">Status</th>
                         <th scope="col">Blood Request Report</th>
                         <th scope="col">Delete Blood Request</th>
@@ -32,6 +33,7 @@
                             <th scope="row">{{brequest.id}}</th>
                             <td>{{brequest.blood.group}}</td>
                             <td>{{brequest.amount}}</td>
+                            <td>{{brequest.created_at}}</td>
                             <td>{{brequest.status}}</td>
                             <td><button class="btn btn-primary" type="submit"><a href="blood_requests/report/{{brequest.id}}" class="text-white" style="text-decoration: none;" target="_blank">Get Report</a></button></td>
                             

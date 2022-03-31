@@ -103,8 +103,7 @@ class DeleteBloodRequest(View):
 class Events(View):
     def get(self, request):
         event = Event.objects.all().order_by('-id')
-        count = EventRegistration.objects.all()
-        return render(request, 'event.html', {'event':event, 'count':count})
+        return render(request, 'event.html', {'event':event})
 
     def post(self, request):
         user = request.user
@@ -122,6 +121,8 @@ class Events(View):
 
             registration = EventRegistration(event=checkEvent, user=user)
             registration.save()
+            checkEvent.registration = checkEvent.registration + 1
+            checkEvent.save()
 
             messages.success(request, "Your registration for this event is successfull!")
             return redirect('event')
