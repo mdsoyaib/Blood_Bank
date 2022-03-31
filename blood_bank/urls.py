@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank, BloodRequestHistory, BloodRequestReport
+from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank, BloodRequestHistory, BloodRequestReport, DeleteBloodRequest
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -31,6 +31,7 @@ urlpatterns = [
 
     path('blood_requests', BloodRequestHistory.as_view(), name="blood_requests"),
     path('blood_requests/report/<int:pk>', BloodRequestReport.as_view(), name="blood_request_report"),
+    path('delete_blood_request', DeleteBloodRequest.as_view(), name="delete_blood_request"),
 
     path('login', Login.as_view(), name="login"),
     path('signup', Signup.as_view(), name="signup"),

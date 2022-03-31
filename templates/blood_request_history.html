@@ -23,7 +23,7 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Status</th>
                         <th scope="col">Blood Request Report</th>
-                        <th scope="col">Cancel Blood Request</th>
+                        <th scope="col">Delete Blood Request</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -34,9 +34,15 @@
                             <td>{{brequest.amount}}</td>
                             <td>{{brequest.status}}</td>
                             <td><button class="btn btn-primary" type="submit"><a href="blood_requests/report/{{brequest.id}}" class="text-white" style="text-decoration: none;" target="_blank">Get Report</a></button></td>
-                            {% if brequest.status == "Approved" %}
-                            <td><button class="btn btn-danger" type="submit">Cancel Request</button></td>
-                            {% endif %}
+                            
+                            <form method="post" action="delete_blood_request">
+                                {% csrf_token %}
+                                {% if brequest.status == "Approved" %}
+                                <td><button class="btn btn-danger" type="submit">Delete Request</button></td>
+                                <input type="hidden" name="requestID" value="{{brequest.id}}">
+                                {% endif %}
+                            </form>
+
                         </tr>
                         {% endfor %}
                     </tbody>

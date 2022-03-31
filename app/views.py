@@ -80,6 +80,24 @@ class BloodRequestReport(View):
             return redirect('login')
 
 
+# delete blood request view
+
+class DeleteBloodRequest(View):
+    def post(self, request):
+        id = request.POST['requestID']
+
+        deleteRequest = BloodRequest.objects.get(id=id)
+        deleteRequest.delete()
+
+        # when user deleting the request that blood stock will restock again
+        checkBlood = Blood.objects.get(id=deleteRequest.blood.id)
+        checkBlood.stock = checkBlood.stock + deleteRequest.amount
+        checkBlood.save()
+        
+        messages.success(request, "You have successfully deleted the request!")
+        return redirect('blood_requests')
+
+
 # events page view
 
 class Events(View):
