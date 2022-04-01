@@ -244,6 +244,34 @@ class Feedbacks(View):
             return redirect('feedback')
 
 
+# edit feedback view
+
+class EditFeedback(View):
+    def post(self, request, id):
+        user = request.user
+        editFeedback = request.POST['editFeedback']
+        
+        if editFeedback == '':
+            messages.warning(request, "You haven't written aything.")
+            return redirect('feedback')
+        else:
+            update = Feedback.objects.get(id=id, user=user)
+            update.feedback = editFeedback
+            update.save()
+            messages.success(request, "Your feedback updated successfully!")
+            return redirect('feedback')
+
+
+# delete feedback view
+
+class DeleteFeedback(View):
+    def post(self, request, id):
+        feedback = Feedback.objects.get(id=id)
+        feedback.delete()
+        messages.success(request, "Your feedback has been deleted.")
+        return redirect('feedback')
+
+
 # about us page view
 
 class About(View):
