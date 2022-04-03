@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.db.models import F
@@ -213,6 +213,7 @@ class Login(View):
 
 class Feedbacks(View):
     def get(self, request):
+        user=request.user
         feedback = Feedback.objects.all().order_by('-id')
         return render(request, 'feedback.html', {'feedback': feedback})
 
@@ -271,6 +272,26 @@ class DeleteFeedback(View):
         messages.success(request, "Your feedback has been deleted.")
         return redirect('feedback')
 
+
+# feedback like view
+
+class LikeFeedback(View):
+    def post(self, request, id):
+        user = request.user
+        check = Feedback.objects.get(id=id)
+        try:
+            if FeedbackLike.objects.all().get(user=user, feedback=check):
+                messages.warning(request, "You have already liked this feedback")
+                return redirect('feedback')
+        except:
+            pass
+            
+        flike = FeedbackLike(user=user, feedback=check)
+        flike.save()
+        check.like = check.like + 1
+        check.save()
+        messages.success(request, "Thanks for your like!")
+        return redirect('feedback')
 
 # about us page view
 

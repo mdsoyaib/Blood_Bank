@@ -80,6 +80,14 @@ class EventRegistration(models.Model):
 class Feedback(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, verbose_name=_("User Name"), null=True, blank=True)
     feedback = models.TextField(null=True, blank=True)
+    like = models.PositiveIntegerField(null=True, blank=True, default=0)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
+class FeedbackLike(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, verbose_name=_("User Name"), null=True, blank=True)
+    feedback = models.ForeignKey(Feedback, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 

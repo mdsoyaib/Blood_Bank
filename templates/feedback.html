@@ -21,7 +21,26 @@
                     <div class="card-body">
                         <p class="card-title text-secondary pt-0">Posted On: {{feedback.created_at}} <i>(Updated on: {{feedback.updated_at}})</i></p>
                         <p class="card-text text-success">{{feedback.feedback}}</p>
-                        {% if feedback.user == request.user %}
+
+                       <!-- like/unlike section, if user is logged then he/she can like/unlike feedback -->
+                        {% if user.is_authenticated %}
+                        <p class="card-text">     
+                            
+                            <form action="like_feedback/{{feedback.id}}" method="post">
+                                {% csrf_token %}
+
+                                {{feedback.like}} likes  
+                                <button class="btn btn-info" type="submit">Like <i class="fa fa-thumbs-up" aria-hidden="true"></i></a></button>
+                            </form>
+                                  
+                        </p>
+                        {% else %}
+                        <p class="card-text">{{feedback.like}} likes</p>
+                        {% endif %}
+                        <!-- like/unlike section end -->
+
+                        <!-- edit/delete feedback section -->
+                        {% if feedback.user == request.user %} 
                         <p class="card-text text-info">
                             <a href="#editModal{{feedback.id}}" class="view text-info" style="text-decoration: none;" data-toggle="modal"
                             data-target="#editModal{{feedback.id}}">edit</a> | 
@@ -29,6 +48,8 @@
                             data-target="#deleteModal{{feedback.id}}">delete</a>
                         </p>
                         {% endif %}
+                        <!-- edit/delete feedback section ends -->
+
                     </div>
                 </div>
             </div>
@@ -64,7 +85,6 @@
             <!-- feedback Modal HTML to edit feedback end -->
 
             <!-- feedback Modal HTML to delete feedback -->
-
             <div id="deleteModal{{feedback.id}}" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -92,6 +112,7 @@
             <!-- feedback Modal HTML to delete feedback end -->                
 
             {% endfor %}
+            <!-- this section is about the feedbacks ends -->
 
             <!-- this section is for feedback comment box -->
 
@@ -101,14 +122,13 @@
                         <form method="post" action="feedback">
                             {% csrf_token %}
                             <h6 class="card-title">Comment your feedback: </h6>
-                            <!-- <input class="text-left" type="text" name="feedback" id="feedback" style="width: 100%;"
-                                   placeholder="write your feedback"> -->
                             <textarea class="form-control" rows="5" id="feedback" name="feedback" placeholder="write your feedback"></textarea>
                             <input type="submit" class="fourth ml-0 mt-2 mb-0 btn btn-success" value="submit">
                         </form>
                     </div>
                 </div>
             </div>
+            <!-- this section is for feedback comment box ends -->
         </div>
     </div>
 
