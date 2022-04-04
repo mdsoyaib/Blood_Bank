@@ -98,6 +98,15 @@ class DeleteBloodRequest(View):
         return redirect('blood_requests')
 
 
+# find donor page view
+
+class FindDonor(View):
+    def get(self, request):
+        city = City.objects.all()
+        blood = Blood.objects.all()
+        return render(request, "find_donor.html", {'city':city, 'blood':blood})
+
+
 # events page view
 
 class Events(View):
@@ -285,7 +294,7 @@ class LikeFeedback(View):
                 return redirect('feedback')
         except:
             pass
-            
+
         flike = FeedbackLike(user=user, feedback=check)
         flike.save()
         check.like = check.like + 1
