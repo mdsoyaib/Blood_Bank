@@ -44,63 +44,72 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-12 mt-3 mb-5 card" style="background-color: rgb(180, 230, 180);">
                     <div class="row">
 
-                        {% for event in event %}
-                        <div class="col-lg-4 mx-auto m-5 text-center">
-                            <div class="card mx-auto border-white" style="width: 18rem;">
-                                <img class="card-img-top" src="/media/{{event.photo}}" alt="event image" height="250px">
-                                <div class="card-body">
-                                  <h5 class="card-title">{{event.title}}</h5>
-                                  <h6 class="text-secondary">Event Date: {{event.event_date}}</h6>
-
-                                  <button class="btn btn-primary mt-2"><a href="#viewModal{{event.id}}" class="view text-white" style="text-decoration: none;" data-toggle="modal"
-                                  data-target="#viewModal{{event.id}}">View Detail</a></button>
-
-                                </div>
-                            </div>
+                        {% if not request.GET %}
+                        <div class="col-lg-12 mt-2 mb-2 text-center">
+                            <h4>Donors List</h4>
                         </div>
+                        <div class="col-lg-12">
+                            <table class="table table-hover text-center">
+                                <thead class="bg-dark text-white">
+                                    <tr>
+                                        <th scope="col">Donor Name</th>
+                                        <th scope="col">City</th>
+                                        <th scope="col">Blood Group</th>
+                                        <th scope="col">View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for donor in donor %}
+                                    <tr>
+                                        <th scope="row">{{donor.first_name}} {{donor.last_name}}</th>
+                                        <td>{{donor.city}}</td>
+                                        <td>{{donor.blood}}</td>
+                                        <td>
+                                            <button class="btn btn-primary"><a href="#viewModal{{donor.id}}" class="view text-white" style="text-decoration: none;" data-toggle="modal"
+                                            data-target="#viewModal{{donor.id}}">View</a></button>
+                                        </td>
+                                    </tr>
 
-                        <!-- Event Details Modal HTML -->
+                                    <!-- donor Details Modal HTML -->
 
-                        <div id="viewModal{{event.id}}" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form action="event" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                &times
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-lg-5 p-2 text-center">
-                                                    <img src="/media/{{event.photo}}" alt="event detail img" height="300px">
-                                                </div>
-                                                <div class="col-lg-7 pl-4">
-                                                    <input type="hidden" name="eventID" value="{{event.id}}">
-                                                    <h4 class="pb-2">Event Title: {{event.title}}</h4>
-                                                    <h6>Organized By: {{event.organized_by}}</h6>
-                                                    <h6 class="text-secondary">Event Date: {{event.event_date}}</h6>
-                                                    <h6 class="text-secondary">Event Time: {{event.event_time}}</h6>
-                                                    <h6 class="text-secondary">Event Address: {{event.address}}</h6>
-                                                    
-                                                    <h6 class="text-secondary">Total Registration: {{event.registration}}</h6>
-                                                    
-                                                    <p class="text-justify pt-2 pb-3"><i>{{event.description}}</i></p>
-                                                    <p class="text-danger">Register yourself as a donor in this event.</p>
-                                                    <button class="btn btn-success mb-2" type="submit">Click Here</button>
-                                                </div>
+                                    <div id="viewModal{{donor.id}}" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form action="find_donor" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                            &times
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12 pl-4 mx-auto">
+                                                                <input type="hidden" name="donorID" value="{{donor.id}}">
+                                                                <h4 class="pb-2">Donor Name: {{donor.first_name}} {{donor.last_name}}</h4>
+                                                                <h6 class="">Blood Group: {{donor.blood}}</h6>
+                                                                <input type="hidden" name="blood" value="{{donor.blood}}">
+                                                                <h6 class="pb-3">From City: {{donor.city}}</h6>
+                                                                <textarea name="message" id="message" cols="78" rows="3" placeholder="write message"></textarea>
+                                                                <button class="btn btn-success mt-2 mb-2" type="submit">Send Request & Get Contact Number</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
+                                    </div>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
                         </div>
-                        
-                        {% endfor %}
+                        {% endif %}  
 
                     </div>
                 </div>

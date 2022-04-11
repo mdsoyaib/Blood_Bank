@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.db.models import F
@@ -102,9 +102,43 @@ class DeleteBloodRequest(View):
 
 class FindDonor(View):
     def get(self, request):
-        city = City.objects.all()
-        blood = Blood.objects.all()
-        return render(request, "find_donor.html", {'city':city, 'blood':blood})
+        user = request.user
+        if user.is_authenticated:
+            city = City.objects.all()
+            blood = Blood.objects.all()
+            donor = CustomUser.objects.filter(role="donor")
+            return render(request, "find_donor.html", {'city':city, 'blood':blood, 'donor':donor})
+        else:
+            messages.warning(request, "login first to access that page")
+            return redirect('login')
+
+    def post(self, request):
+        user = request.user
+        donor = request.POST['donorID']
+        print(donor)
+        blood = request.POST['blood']
+        message = request.POST['message']
+
+        checkDonor = CustomUser.objects.get(id=donor)
+        checkBlood = Blood.objects.get(group=blood)
+
+        requests = RequestToDonor(from_patient=user, to_donor=checkDonor, blood=checkBlood, message=message)
+        requests.save()
+        messages.success(request, "Check the donor contact number you requested and contact him/her for your needs.")
+        return redirect('donor_requests')
+
+
+# donor request history page view
+
+class DonorRequestHistory(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            requests = RequestToDonor.objects.all().order_by('-id')
+            return render(request, "donor_request_history.html", {'request':requests})
+        else:
+            messages.warning(request, "login first to access that page")
+            return redirect('login')
 
 
 # events page view

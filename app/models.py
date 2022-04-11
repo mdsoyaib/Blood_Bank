@@ -53,6 +53,16 @@ class BloodRequest(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
+class RequestToDonor(models.Model):
+    from_patient = models.ForeignKey(CustomUser, on_delete=models.PROTECT, null=True, blank=True, related_name='From+')
+    to_donor = models.ForeignKey(CustomUser, on_delete=models.PROTECT, null=True, blank=True, related_name='To+')
+    blood = models.ForeignKey(Blood, on_delete=models.PROTECT, null=True, blank=True)
+    message = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+
+
 class Event(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     organized_by = models.CharField(max_length=255, null=True, blank=True)

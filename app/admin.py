@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Blood, CustomUser, City, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike
+from app.models import Blood, CustomUser, City, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor
 
 # Register your models here.
 
@@ -16,3 +16,4 @@ class FeedbackLikeAdmin(admin.ModelAdmin):
 
 admin.site.register(ContactForm)
 admin.site.register(BloodRequest)
+admin.site.register(RequestToDonor)
