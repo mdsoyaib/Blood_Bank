@@ -106,8 +106,14 @@ class FindDonor(View):
         if user.is_authenticated:
             city = City.objects.all()
             blood = Blood.objects.all()
-            donor = CustomUser.objects.filter(role="donor")
-            return render(request, "find_donor.html", {'city':city, 'blood':blood, 'donor':donor})
+            if request.GET:
+                checkCity = request.GET.get('city')
+                checkBlood = request.GET.get('blood')
+                donor = CustomUser.objects.filter(city=checkCity, blood=checkBlood, role="donor")
+                return render(request, "find_donor.html", {'city':city, 'blood':blood, 'donor':donor})
+            else:
+                donor = CustomUser.objects.filter(role="donor")
+                return render(request, "find_donor.html", {'city':city, 'blood':blood, 'donor':donor})
         else:
             messages.warning(request, "login first to access that page")
             return redirect('login')
@@ -134,7 +140,7 @@ class DonorRequestHistory(View):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            requests = RequestToDonor.objects.all().order_by('-id')
+            requests = RequestToDonor.objects.filter(from_patient=user).order_by('-id')
             return render(request, "donor_request_history.html", {'request':requests})
         else:
             messages.warning(request, "login first to access that page")
