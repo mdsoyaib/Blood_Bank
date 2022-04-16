@@ -78,7 +78,7 @@
                     <a class="dropdown-item" href="{% url 'blood_requests' %}">Blood Requests</a>
                     <a class="dropdown-item" href="{% url 'donor_requests' %}">Donor Requests</a>
                     {% if user.role == 'donor' %}
-                    <a class="dropdown-item" href="">Patient Requests</a>
+                    <a class="dropdown-item" href="{% url 'patient_requests' %}">Patient Requests</a>
                     {% endif %}
                 </div>
                 {% endif %}

@@ -147,6 +147,23 @@ class DonorRequestHistory(View):
             return redirect('login')
 
 
+# patient request history page view
+
+class PatientRequestHistory(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            if user.role == "donor":
+                requests = RequestToDonor.objects.filter(to_donor=user).order_by('-id')
+                return render(request, "patient_request_history.html", {'request':requests})
+            else:
+                messages.warning(request, "you don't have access to this page")
+                return redirect('home')
+        else:
+            messages.warning(request, "login first to access that page")
+            return redirect('login')
+
+
 # events page view
 
 class Events(View):

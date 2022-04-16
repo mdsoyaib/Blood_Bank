@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank, BloodRequestHistory, BloodRequestReport, DeleteBloodRequest, EditFeedback, DeleteFeedback, LikeFeedback, FindDonor, DonorRequestHistory
+from app.views import Home, Signup, Login, Events, Feedbacks, About, BloodBank, BloodRequestHistory, BloodRequestReport, DeleteBloodRequest, EditFeedback, DeleteFeedback, LikeFeedback, FindDonor, DonorRequestHistory, PatientRequestHistory
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -28,6 +28,7 @@ urlpatterns = [
     path('find_donor', FindDonor.as_view(), name="find_donor"),
     path('donor_requests', DonorRequestHistory.as_view(), name="donor_requests"),
     path('event', Events.as_view(), name="event"),
+    path('patient_requests', PatientRequestHistory.as_view(), name="patient_requests"),
 
     path('feedback', Feedbacks.as_view(), name="feedback"),
     path('edit_feedback/<int:id>', EditFeedback.as_view(), name="edit_feedback"),

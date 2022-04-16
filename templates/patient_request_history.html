@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Patient Requests
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center pt-3 pb-3 text-success">
+                <h2><b>Your Patient Requests For Blood</b></h2>
+            </div>
+
+            <!-- this section is about the blood requests history -->
+
+            <div class="col-lg-12 ml-1 mr-1 mt-1 mb-5" style="background-color: rgb(180, 230, 180);">
+                <table class="table table-hover text-center">
+                    <thead class="bg-dark text-white">
+                      <tr>
+                        <th scope="col">Request ID</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Blood Group</th>
+                        <th scope="col">Request Date & Time</th>
+                        <th scope="col">Contact Number</th>
+                        <th scope="col">Message</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in request %}
+                        <tr>
+                            <th scope="row">{{request.id}}</th>
+                            <td>{{request.from_patient.first_name}} {{request.from_patient.last_name}}</td>
+                            <td>{{request.from_patient.city}}</td>
+                            <td>{{request.blood.group}}</td>
+                            <td>{{request.created_at}}</td>
+                            <td><i class="fa-solid fa-phone"></i> {{request.from_patient.phone}}</td>
+                            <td>{{request.message}}</td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
