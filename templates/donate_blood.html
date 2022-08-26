@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Donate Blood
+{% endblock title %}
+
+{% block content %}
+
+    <div class="donation">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mt-3 text-center text-success">
+                    <h2><b>Donate Blood Save Lives</b></h2>
+                </div>
+                <div class="col-lg-12 mt-3 mb-5 card" style="background-color: rgb(180, 230, 180);">
+                    <div class="row">
+
+                        <div class="col-lg-12 pt-3 text-center"><h3><b>Blood Donation Process</b></h3></div>
+
+                        <div class="col-lg-3 m-3 mx-auto text-center">
+                            <div class="card mx-auto border-white">
+                                <img class="card-img-top" src="/static/img/donation/registration.jpg" height="170px"> 
+                                <div class="card-body">
+                                <h5 class="card-title">1. Registration</h5>
+                                <p>Register yourself as a donar to donate your blood.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 m-3 mx-auto text-center">
+                            <div class="card mx-auto border-white">
+                                <img class="card-img-top" src="/static/img/donation/seeing.jpg" height="170px">
+                                <div class="card-body">
+                                <h5 class="card-title">2. Seeing</h5>
+                                <p>After registration come to the blood bank for checkup.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 m-3 mx-auto text-center">
+                            <div class="card mx-auto border-white">
+                                <img class="card-img-top" src="/static/img/donation/donation.jpg" height="170px">
+                                <div class="card-body">
+                                <h5 class="card-title">3. Donation</h5>
+                                <p>After checkup completion donated your blood.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 m-3 mx-auto text-center">
+                            <div class="card mx-auto border-white">
+                                <img class="card-img-top" src="/static/img/donation/savelife.jpg" height="170px">
+                                <div class="card-body">
+                                <h5 class="card-title">4. Save Life</h5>
+                                <p>Your donation will save people lives.</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Event Details Modal HTML -->
+
+                        <div id="viewModal{{event.id}}" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="event" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-5 p-2 text-center">
+                                                    <img src="/media/{{event.photo}}" alt="event detail img" height="300px">
+                                                </div>
+                                                <div class="col-lg-7 pl-4">
+                                                    <input type="hidden" name="eventID" value="{{event.id}}">
+                                                    <h4 class="pb-2">Event Title: {{event.title}}</h4>
+                                                    <h6>Organized By: {{event.organized_by}}</h6>
+                                                    <h6 class="text-secondary">Event Date: {{event.event_date}}</h6>
+                                                    <h6 class="text-secondary">Event Time: {{event.event_time}}</h6>
+                                                    <h6 class="text-secondary">Event Address: {{event.address}}</h6>
+                                                    
+                                                    <h6 class="text-secondary">Total Registration: {{event.registration}}</h6>
+                                                    
+                                                    <p class="text-justify pt-2 pb-3"><i>{{event.description}}</i></p>
+                                                    <p class="text-danger">Register yourself as a donor in this event.</p>
+                                                    <button class="btn btn-success mb-2" type="submit">Click Here</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> 
+                             
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

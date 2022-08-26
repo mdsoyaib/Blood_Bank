@@ -164,6 +164,13 @@ class PatientRequestHistory(View):
             return redirect('login')
 
 
+#donate blood page view from where donor will register for donation
+
+class DonateBlood(View):
+    def get(self, request):
+        return render(request, "donate_blood.html")
+
+
 # events page view
 
 class Events(View):

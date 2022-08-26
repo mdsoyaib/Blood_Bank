@@ -64,7 +64,7 @@
                                                     </select>
                                                     <button class="btn btn-success mt-2 mb-2" type="submit">Send Request</button>
                                                     {% else %}
-                                                    <p class="text-danger pt-5 pb-2">Sorry! We don't have available stock for this blood. Find a donor to get blood. <a href="">Click Here</a></p>
+                                                    <p class="text-danger pt-5 pb-2">Sorry! We don't have available stock for this blood. Find a donor to get blood. <a href="{% url 'find_donor' %}">Click Here</a></p>
                                                     {% endif %}
                                                 </div>
                                             </div>
