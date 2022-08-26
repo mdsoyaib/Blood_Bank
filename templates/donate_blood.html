@@ -14,9 +14,8 @@
                 </div>
                 <div class="col-lg-12 mt-3 mb-5 card" style="background-color: rgb(180, 230, 180);">
                     <div class="row">
-
                         <div class="col-lg-12 pt-3 text-center"><h3><b>Blood Donation Process</b></h3></div>
-
+                        
                         <div class="col-lg-3 m-3 mx-auto text-center">
                             <div class="card mx-auto border-white">
                                 <img class="card-img-top" src="/static/img/donation/registration.jpg" height="170px"> 
@@ -52,15 +51,19 @@
                                 <p>Your donation will save people lives.</p>
                                 </div>
                             </div>
+                        </div> 
+                        
+                        <div class="col-lg-12 mt-3 mb-4 text-center">
+                            <button class="btn btn-primary mt-2"><a href="#viewModalDonate" class="view text-white" style="text-decoration: none;" data-toggle="modal"
+                                data-target="#viewModalDonate">Click Here To Register Yourself For Donation</a></button>
                         </div>
 
+                        <!-- donate blood Modal HTML to register -->
 
-                        <!-- Event Details Modal HTML -->
-
-                        <div id="viewModal{{event.id}}" class="modal fade">
+                        <div id="viewModalDonate" class="modal fade">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <form action="event" method="post" enctype="multipart/form-data">
+                                    <form action="" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -69,30 +72,24 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-lg-5 p-2 text-center">
-                                                    <img src="/media/{{event.photo}}" alt="event detail img" height="300px">
-                                                </div>
-                                                <div class="col-lg-7 pl-4">
-                                                    <input type="hidden" name="eventID" value="{{event.id}}">
-                                                    <h4 class="pb-2">Event Title: {{event.title}}</h4>
-                                                    <h6>Organized By: {{event.organized_by}}</h6>
-                                                    <h6 class="text-secondary">Event Date: {{event.event_date}}</h6>
-                                                    <h6 class="text-secondary">Event Time: {{event.event_time}}</h6>
-                                                    <h6 class="text-secondary">Event Address: {{event.address}}</h6>
-                                                    
-                                                    <h6 class="text-secondary">Total Registration: {{event.registration}}</h6>
-                                                    
-                                                    <p class="text-justify pt-2 pb-3"><i>{{event.description}}</i></p>
-                                                    <p class="text-danger">Register yourself as a donor in this event.</p>
-                                                    <button class="btn btn-success mb-2" type="submit">Click Here</button>
+                                                <div class="col-lg-12 pl-4 mx-auto">
+                                                    <input type="hidden" name="feedbackID" value="{{feedback.id}}">
+                                                    <h4 class="pb-2">You want to donate free or want to get paid?</h4>
+                                                    <p>Select:</p>
+                                                    <input type="radio" name="donation" id="free" value="free" required>
+                                                    <label for="free">I want to donate for free</label><br>
+                                                    <input type="radio" name="donation" id="paid" value="paid" required>
+                                                    <label for="paid">I want to get paid</label>
+                                                    <p class="text-danger pt-2 pb-2">Note: After completing your registration, come to the blood bank to donate your blood.</p>
+                                                    <button class="btn btn-success mt-2 mb-2" type="submit">Confirm Registration</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                        </div> 
-                             
+                        </div>
+                        <!-- donate blood Modal HTML to register end -->
                     </div>
                 </div>
             </div>

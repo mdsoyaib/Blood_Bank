@@ -63,6 +63,22 @@ class RequestToDonor(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
 
+class Donation(models.Model):
+    status = (
+        ("Approved", "Approved"),
+        ("Canceled", "Canceled"),
+        ("Collected", "Collected"),
+        ("Expired", "Expired"),
+    )
+    donor = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True)
+    donation = models.CharField(max_length=255, null=True, blank=True)
+    status = models.CharField(max_length=255, choices=status, null=True, blank=True, default="Approved")
+
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)    
+
+
+
 class Event(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     organized_by = models.CharField(max_length=255, null=True, blank=True)

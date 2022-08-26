@@ -168,7 +168,12 @@ class PatientRequestHistory(View):
 
 class DonateBlood(View):
     def get(self, request):
-        return render(request, "donate_blood.html")
+        user = request.user
+        if user.is_authenticated:
+            return render(request, "donate_blood.html")
+        else:
+            messages.warning(request, "login first to access that page")
+            return redirect('login')
 
 
 # events page view
