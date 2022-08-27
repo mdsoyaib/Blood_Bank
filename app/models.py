@@ -65,14 +65,14 @@ class RequestToDonor(models.Model):
 
 class Donation(models.Model):
     status = (
+        ("Pending", "Pending"),
         ("Approved", "Approved"),
         ("Canceled", "Canceled"),
         ("Collected", "Collected"),
-        ("Expired", "Expired"),
     )
     donor = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, null=True, blank=True)
     donation = models.CharField(max_length=255, null=True, blank=True)
-    status = models.CharField(max_length=255, choices=status, null=True, blank=True, default="Approved")
+    status = models.CharField(max_length=255, choices=status, null=True, blank=True, default="Pending")
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)    

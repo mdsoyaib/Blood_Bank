@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor
+from app.models import City, Blood, CustomUser, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor, Donation
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.db.models import F
@@ -170,10 +170,46 @@ class DonateBlood(View):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            return render(request, "donate_blood.html")
+            if user.role == 'donor':
+                return render(request, "donate_blood.html")
+            else:
+                messages.warning(request, 'update yourself from patient to donor for donating blood')
+                return redirect('home')
         else:
             messages.warning(request, "login first to access that page")
             return redirect('login')
+
+    def post(self, request):
+        user = request.user
+        donation = request.POST['donation']
+        donate = Donation(donor=user, donation=donation)
+        donate.save()
+        messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+        return redirect('donation_history')
+
+
+#donation history page view
+
+class DonationHistory(View):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            donation = Donation.objects.filter(donor=user)
+            return render(request, 'donation_history.html', {'donation':donation})
+        else:
+            messages.warning(request, 'login first to access that page!')
+            return redirect('login')
+
+
+# cancel donation registration view
+
+class CancelDonation(View):
+    def post(self, request):
+        id = request.POST['donationID']
+        cancelDonation = Donation.objects.get(id=id)
+        cancelDonation.delete()       
+        messages.success(request, "You have successfully canceled donation registration!")
+        return redirect('donation_history')
 
 
 # events page view

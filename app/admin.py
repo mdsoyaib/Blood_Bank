@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Blood, CustomUser, City, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor
+from app.models import Blood, CustomUser, City, Event, EventRegistration, Feedback, ContactForm, BloodRequest, FeedbackLike, RequestToDonor, Donation
 
 # Register your models here.
 
@@ -22,3 +22,5 @@ admin.site.register(BloodRequest)
 class RequestToDonorAdmin(admin.ModelAdmin):
     list_display = ("id", "from_patient", "to_donor", "blood", "message", "created_at")
     list_per_page = 10
+
+admin.site.register(Donation)

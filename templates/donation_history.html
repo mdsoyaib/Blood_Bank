@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Donation History
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center pt-3 pb-3 text-success">
+                <h2><b>Your Blood Donation History</b></h2>
+            </div>
+
+            <!-- this section is about the blood requests history -->
+
+            <div class="col-lg-12 ml-1 mr-1 mt-1 mb-5" style="background-color: rgb(180, 230, 180);">
+                <table class="table table-hover text-center">
+                    <thead class="bg-dark text-white">
+                      <tr>
+                        <th scope="col">Donation Registration ID</th>
+                        <th scope="col">Blood Group</th>
+                        <th scope="col">Donation</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Registration Date & Time</th>  
+                        <th scope="col">Cancel Registration</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for donation in donation %}
+                        <tr>
+                            <th scope="row">{{donation.id}}</th>
+                            <td>{{donation.donor.blood}}</td>
+                            <td>{{donation.donation}}</td>
+                            <td>{{donation.status}}</td>
+                            <td>{{donation.created_at}}</td>
+                            
+                            <form method="post" action="cancel_donation">
+                                {% csrf_token %}
+                                {% if donation.status == "Pending" %}
+                                <td><button class="btn btn-danger" type="submit">Cancel Registration</button></td>
+                                <input type="hidden" name="donationID" value="{{donation.id}}">
+                                {% endif %}
+                            </form>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
