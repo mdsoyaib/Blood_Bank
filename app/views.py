@@ -171,6 +171,9 @@ class DonateBlood(View):
         user = request.user
         if user.is_authenticated:
             if user.role == 'donor':
+                check = Donation.objects.all()
+                check = list(check)
+                print(check[-1])
                 return render(request, "donate_blood.html")
             else:
                 messages.warning(request, 'update yourself from patient to donor for donating blood')
@@ -181,11 +184,18 @@ class DonateBlood(View):
 
     def post(self, request):
         user = request.user
-        donation = request.POST['donation']
-        donate = Donation(donor=user, donation=donation)
-        donate.save()
-        messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
-        return redirect('donation_history')
+        
+        check = Donation.objects.all()
+        check = list(check)
+        if check[-1].status == 'Pending':
+            messages.warning(request, "You have already registerd for donation. Please check your last registration.")
+            return redirect('donation_history')
+        else:
+            donation = request.POST['donation']
+            donate = Donation(donor=user, donation=donation)
+            donate.save()
+            messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+            return redirect('donation_history')
 
 
 #donation history page view
