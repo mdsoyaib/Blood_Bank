@@ -23,4 +23,8 @@ class RequestToDonorAdmin(admin.ModelAdmin):
     list_display = ("id", "from_patient", "to_donor", "blood", "message", "created_at")
     list_per_page = 10
 
-admin.site.register(Donation)
+# admin.site.register(Donation)
+@admin.register(Donation)
+class DonationAdmin(admin.ModelAdmin):
+    list_display = ('donor', 'donation', 'status')
+    readonly_fields = ('updated_at',)
