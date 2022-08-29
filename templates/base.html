@@ -20,8 +20,8 @@
 
 <!-- navbar start     -->
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}"><b>Blood Bank Management System</b></a>
+<nav class="navbar navbar-expand-lg navbar-dark font-weight-bold" style="background-color: #b62d0e;">
+    <a class="navbar-brand" href="{% url 'home' %}"><img class="pr-5" src="/static/img/bloodbank.png" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -30,31 +30,36 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             
-            
-            <li class="">
+            {% url 'home' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
             </li>
+
             {% if user.is_authenticated %}
-            <li class="">
+            {% url 'blood_bank' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'blood_bank' %}">Blood Bank <span class="sr-only">(current)</span></a>
             </li>
-
-            <li class="">
+            {% url 'find_donor' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'find_donor' %}">Find Donor <span class="sr-only">(current)</span></a>
             </li>
-            <li class="">
+            {% url 'donate_blood' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'donate_blood' %}">Donate Blood <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
-            <li class="">
+
+            {% url 'event' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'event' %}">Events<span class="sr-only"></a>
             </li>
-           
-            <li class="">
+            {% url 'feedback' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'feedback' %}">Feedbacks</a>
             </li>
-             
-            <li class="">
+            {% url 'about' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'about' %}">About Us</a>
             </li>
         </ul>
@@ -98,11 +103,12 @@
 
             {% if not user.is_authenticated %}
             
-            <li class="">
+            {% url 'login' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
-            
-            <li class="">
+            {% url 'signup' as url %}
+            <li class="{% if request.path == url %}active{% endif %}">
                 <a class="nav-link" href="{% url 'signup' %}">Register</a>
             </li>
 
@@ -131,7 +137,7 @@
 <!-- footer -->
 <footer class="bg-light text-center text-lg-start">
     <!-- Copyright -->
-    <div class="text-center p-3 bg-dark" style="color:white;">
+    <div class="text-center p-3" style="color:white; background-color: #b62d0e;">
         Copyright &copy;<script>document.write(new Date().getFullYear());</script>
         All rights reserved by Md Soyaib
     </div>
