@@ -184,67 +184,90 @@ class DonateBlood(View):
     def post(self, request):
         user = request.user
         
-        check = Donation.objects.all()
+        check = Donation.objects.filter(donor=user)
         check = list(check) 
 
-        current_dt = datetime.now(timezone.utc)
-        current_dt = str(current_dt)
-        current_dt = current_dt.split()
-        current_dt = current_dt[0]
-        zcurrent_dt = datetime.strptime(current_dt, '%Y-%m-%d')
-        print(zcurrent_dt)
+        try:
+            current_dt = datetime.now(timezone.utc)
+            current_dt = str(current_dt)
+            current_dt = current_dt.split()
+            current_dt = current_dt[0]
+            zcurrent_dt = datetime.strptime(current_dt, '%Y-%m-%d')
+            print(zcurrent_dt)
 
-        donation_dt = check[-1].updated_at
-        donation_dt = str(donation_dt)
-        donation_dt = donation_dt.split()
-        donation_dt = donation_dt[0]
-        zdonation_dt = datetime.strptime(donation_dt, '%Y-%m-%d')
-        print(zdonation_dt)
-
-        zresult = zcurrent_dt - zdonation_dt
-        zresult = str(zresult)
-        zresult = zresult.split()
-        date = zresult[0]
-   
-        try:             
-            date = int(date)
-            date = int(date)
-            remaining_dt = 120 - date
-
-            if check[-1].status == 'Pending':
-                messages.warning(request, "Sorry! You have already registerd for donation. Please check your last registration.")
-                return redirect('donation_history')
-        
-            elif date < 120 and (check[-1].status == "Approved" or check[-1].status == "Collected"):
-                messages.warning(request, f"Sorry! You have donated {date} days ago. You can donate again after {remaining_dt} days later.")
-                return redirect("donate_blood")
-
-            else:
-                donation = request.POST['donation']
-                donate = Donation(donor=user, donation=donation)
-                donate.save()
-                messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
-                return redirect('donation_history')
-
-        except:
-            date = 0
-            date = int(date)
-            remaining_dt = 120 - date
-        
-            if check[-1].status == 'Pending':
-                messages.warning(request, "Sorry! You have already registerd for donation. Please check your last registration.")
-                return redirect('donation_history')
+            donation_dt = check[-1].updated_at
             
-            elif date < 120 and (check[-1].status == "Approved" or check[-1].status == "Collected"):
-                messages.warning(request, f"Sorry! You have donated {date} days ago. You can donate again after {remaining_dt} days later.")
-                return redirect("donate_blood")
+            donation_dt = str(donation_dt)
+            donation_dt = donation_dt.split()
+            donation_dt = donation_dt[0]
+            zdonation_dt = datetime.strptime(donation_dt, '%Y-%m-%d')
+            print(zdonation_dt)
 
-            else:
-                donation = request.POST['donation']
-                donate = Donation(donor=user, donation=donation)
-                donate.save()
-                messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
-                return redirect('donation_history')
+            zresult = zcurrent_dt - zdonation_dt
+            zresult = str(zresult)
+            zresult = zresult.split()
+            date = zresult[0]
+    
+            try:             
+                date = int(date)
+                date = int(date)
+                remaining_dt = 120 - date
+    
+                if check[-1].status == 'Pending':
+                    messages.warning(request, "Sorry! You have already registerd for donation. Please check your last registration.")
+                    return redirect('donation_history')
+            
+                elif date < 120 and (check[-1].status == "Approved" or check[-1].status == "Collected"):
+                    messages.warning(request, f"Sorry! You have donated {date} days ago. You can donate again after {remaining_dt} days later.")
+                    return redirect("donate_blood")
+
+                elif check == '':
+                    donation = request.POST['donation']
+                    donate = Donation(donor=user, donation=donation)
+                    donate.save()
+                    messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+                    return redirect('donation_history')
+
+                else:
+                    donation = request.POST['donation']
+                    donate = Donation(donor=user, donation=donation)
+                    donate.save()
+                    messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+                    return redirect('donation_history')
+
+
+            except:
+                date = 0
+                date = int(date)
+                remaining_dt = 120 - date
+                
+                if check[-1].status == 'Pending':
+                    messages.warning(request, "Sorry! You have already registerd for donation. Please check your last registration.")
+                    return redirect('donation_history')
+                
+                elif date < 120 and (check[-1].status == "Approved" or check[-1].status == "Collected"):
+                    messages.warning(request, f"Sorry! You have donated {date} days ago. You can donate again after {remaining_dt} days later.")
+                    return redirect("donate_blood")
+
+                elif check == '':
+                    donation = request.POST['donation']
+                    donate = Donation(donor=user, donation=donation)
+                    donate.save()
+                    messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+                    return redirect('donation_history')
+
+                else:
+                    donation = request.POST['donation']
+                    donate = Donation(donor=user, donation=donation)
+                    donate.save()
+                    messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+                    return redirect('donation_history')
+        except:
+            donation = request.POST['donation']
+            donate = Donation(donor=user, donation=donation)
+            donate.save()
+            messages.success(request, "Registration for blood donation is successfull. Come to the blood bank to donate your blood.")
+            return redirect('donation_history')
 
 
 #donation history page view
